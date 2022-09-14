@@ -5,6 +5,7 @@ import * as orderControllers from './controllers/orderControllers';
 import loginValidation from './middlewares/loginValidation';
 import productValidation from './middlewares/productValidation';
 import 'express-async-errors';
+import userValidation from './middlewares/userValidation';
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.get('/products', productControllers.getAllProducts);
 
 // users 
 
-app.post('/users', userControllers.createUser);
+app.post('/users', userValidation, userControllers.createUser);
 
 // orders
 
