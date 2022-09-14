@@ -3,6 +3,7 @@ import * as productControllers from './controllers/productControllers';
 import * as userControllers from './controllers/userControllers';
 import * as orderControllers from './controllers/orderControllers';
 import 'express-async-errors';
+import loginValidation from './middlewares/loginValidation';
 
 const app = express();
 
@@ -18,5 +19,7 @@ app.post('/users', userControllers.createUser);
 // orders
 
 app.get('/orders', orderControllers.getAllOrders);
+
+app.post('/login', loginValidation, userControllers.login);
 
 export default app;

@@ -10,8 +10,17 @@ export const createUser = async (user: User):Promise<string> => {
   }
 
   const id = await userModels.create(user);
-  const token = tokenGenerator(id);
+  const token = tokenGenerator(id, username);
   return token;
+};
+
+export const login = async (username: string, password: string):Promise<string> => {
+  const user = await userModels.getByLogin(username, password);
+  if (user && user.id) {
+    const token = tokenGenerator(user.id, user.username);
+    return token;
+  }
+  return 'Username or password invalid';
 };
 
 export const getAllUsers = async () => {
