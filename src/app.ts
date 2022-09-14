@@ -2,14 +2,15 @@ import express from 'express';
 import * as productControllers from './controllers/productControllers';
 import * as userControllers from './controllers/userControllers';
 import * as orderControllers from './controllers/orderControllers';
-import 'express-async-errors';
 import loginValidation from './middlewares/loginValidation';
+import productValidation from './middlewares/productValidation';
+import 'express-async-errors';
 
 const app = express();
 
 app.use(express.json());
 
-app.post('/products', productControllers.createProduct);
+app.post('/products', productValidation, productControllers.createProduct);
 app.get('/products', productControllers.getAllProducts);
 
 // users 
