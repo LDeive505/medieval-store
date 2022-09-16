@@ -4,6 +4,8 @@ import * as userControllers from './controllers/userControllers';
 import * as orderControllers from './controllers/orderControllers';
 import loginValidation from './middlewares/loginValidation';
 import productValidation from './middlewares/productValidation';
+import orderValidation from './middlewares/orderValidation';
+import { tokenValidation } from './middlewares/tokenMiddlewares';
 import 'express-async-errors';
 import userValidation from './middlewares/userValidation';
 
@@ -21,6 +23,7 @@ app.post('/users', userValidation, userControllers.createUser);
 // orders
 
 app.get('/orders', orderControllers.getAllOrders);
+app.post('/orders', tokenValidation, orderValidation, orderControllers.createOrder);
 
 app.post('/login', loginValidation, userControllers.login);
 

@@ -1,5 +1,5 @@
-import { RowDataPacket } from 'mysql2';
-import { DetailedOrder } from '../types/Order';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { DetailedOrder, Order } from '../types/Order';
 import connection from './connection';
 
 export const getAll = async (): Promise<DetailedOrder[]> => {
@@ -18,6 +18,14 @@ export const getAll = async (): Promise<DetailedOrder[]> => {
   return result as DetailedOrder[];
 };
 
-export const create = () => {
+export const create = async (userId: number, productsIds: Array<number>): Promise<Order> => {  
+  const [result] = await connection
+    .execute<ResultSetHeader>('INSERT INTO Trybesmith.Orders (userId) VALUES (?)', [userId]);
+  
+  await productsIds.forEach(async (prodId) => {
+    await connection.execute<ResultSetHeader>(`UPDATE Trybesmith.Products
+      SET orderId = ? WHERE ?`, [result.insertId, prodId]);
+  });
 
+  return { userId, productsIds } as Order;
 };

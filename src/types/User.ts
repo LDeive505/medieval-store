@@ -10,3 +10,8 @@ export type Login = {
   username: string;
   password: string;
 };
+
+export type DecodedUser = {
+  id: number;
+  username: string;
+};

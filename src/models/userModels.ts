@@ -12,6 +12,15 @@ export const create = async (user: User):Promise<number> => {
   return result.insertId;
 };
 
+export const getById = async (id: number):Promise<User> => {
+  const [result] = await connection.execute<RowDataPacket[]>(
+    'SELECT * FROM Trybesmith.Users WHERE id = ?',
+    [id],
+  );
+
+  return result[0] as User;
+};
+
 export const getByLogin = async (username: string, password: string): Promise<User> => {
   const [result] = await connection.execute<RowDataPacket[]>(
     'SELECT * FROM Trybesmith.Users WHERE username = ? AND password = ?',
